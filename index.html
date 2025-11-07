@@ -1,16 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <title>Treino Felipe</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="manifest" href="treinofelipe_manifest.json">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#000080">
+  <title>Treino Felipe</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 2rem; background: #121212; color: #eee; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: #121212;
+      color: #eee;
+    }
     h1 { margin-top: 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.5rem;
+      border: 1px solid #333;
+    }
+    th {
+      background: #1e1e1e;
+    }
+    tbody tr:nth-child(even) {
+      background: #1f1f1f;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
+      background: #007ACC;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #005fa3;
+    }
   </style>
   <script>
+    function falarPlano() {
+      const linhas = document.querySelectorAll('#tabela-plano tbody tr');
+      let texto = '';
+      linhas.forEach(tr => {
+        const c = tr.children;
+        texto += 'Semana ' + c[0].textContent + ', ' + c[1].textContent + ': ' + c[2].textContent + ', ' + c[3].textContent + '. ';
+      });
+      const utter = new SpeechSynthesisUtterance(texto);
+      utter.lang = 'pt-BR';
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utter);
+    }
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('treinofelipe_sw.js');
     }
@@ -18,6 +63,30 @@
 </head>
 <body>
   <h1>Treino Felipe</h1>
-  <p>Seu app está pronto para personalização.</p>
+  <p>Plano de corrida de 4 semanas para corrigir a queda de ritmo.</p>
+  <button onclick="falarPlano()">Ouvir plano completo</button>
+  <table id="tabela-plano">
+    <thead>
+      <tr><th>Semana</th><th>Dia</th><th>Treino</th><th>Descrição</th><th>Ritmo / Observações</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Segunda</td><td>Corda (8 min)</td><td>Ativação e técnica</td><td>Leve, técnica</td></tr>
+      <tr><td>1</td><td>Terça</td><td>Fartlek 6×1 km</td><td>1 km forte + 1 km leve (6x)</td><td>4:20/km forte, 5:50/km leve</td></tr>
+      <tr><td>1</td><td>Quinta</td><td>Corrida 6 km</td><td>Ritmo constante</td><td>5:00–5:15/km</td></tr>
+      <tr><td>1</td><td>Domingo</td><td>Progressivo 5 km</td><td>5:15 → 4:30</td><td>Controlar splits</td></tr>
+      <tr><td>2</td><td>Segunda</td><td>Corda (10 min)</td><td>Leve</td><td>Coordenação</td></tr>
+      <tr><td>2</td><td>Terça</td><td>Intervalado 5×1 km</td><td>1 km forte + 1 km leve (5x)</td><td>4:05–4:10/km forte, 5:40/km leve</td></tr>
+      <tr><td>2</td><td>Quinta</td><td>Tempo run 6 km</td><td>2 km leves + 3 km forte + 1 km leve</td><td>4:35/km no trecho forte</td></tr>
+      <tr><td>2</td><td>Domingo</td><td>Longa 7–8 km</td><td>Rodagem moderada</td><td>5:10–5:25/km</td></tr>
+      <tr><td>3</td><td>Segunda</td><td>Corda + equilíbrio (10 min)</td><td>Pular e exercícios de equilíbrio</td><td>Coordenação</td></tr>
+      <tr><td>3</td><td>Terça</td><td>Intervalado 4×1 km</td><td>1 km forte + 1 km leve (4x)</td><td>4:05–4:10/km forte, 5:40/km leve</td></tr>
+      <tr><td>3</td><td>Quinta</td><td>Ritmo contínuo 5 km</td><td>Correr direto</td><td>4:45/km</td></tr>
+      <tr><td>3</td><td>Domingo</td><td>Leve + 4 tiros 100 m</td><td>6 km leve + 4 acelerações</td><td>Pace 5:15/km; tiros curtos</td></tr>
+      <tr><td>4</td><td>Segunda</td><td>Corda e coordenação (10 min)</td><td>Variar ritmos</td><td>Leve</td></tr>
+      <tr><td>4</td><td>Terça</td><td>Fartlek progressivo (40 min)</td><td>1 km forte + 1 km leve</td><td>4:20/km forte; 5:45/km leve</td></tr>
+      <tr><td>4</td><td>Quinta</td><td>Corrida de ritmo 7 km</td><td>2 km leves + 4 km forte + 1 km leve</td><td>4:30–4:35/km no trecho forte</td></tr>
+      <tr><td>4</td><td>Domingo</td><td>Simulado 5 km</td><td>Prova simulada</td><td>4:45 → 4:20/km; meta 22:30–23:00</td></tr>
+    </tbody>
+  </table>
 </body>
 </html>
