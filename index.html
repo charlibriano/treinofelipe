@@ -1,36 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Corrida Felipe • v3.8.3 (TTS Coach)</title>
-<meta name="theme-color" content="#0e1116">
+<title>Corrida Felipe • v3.8.3</title>
+<meta name="theme-color" content="#0e1116"/>
 <link rel="manifest" href="corrida_felipe_manifest.json">
 <style>
-:root{--bg:#0e1116;--card:#151a22;--muted:#8ea6c0;--text:#e6f1ff;--accent:#58a6ff;--border:#223041}
-*{box-sizing:border-box} body{margin:0;font-family:system-ui,Segoe UI,Roboto;background:var(--bg);color:var(--text)}
-header{position:sticky;top:0;background:#0f141d;border-bottom:1px solid var(--border);z-index:30}
-.wrap{max-width:1060px;margin:0 auto;padding:14px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
-.card .head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
-.card .body{padding:12px}
-.btn{border:1px solid var(--border);background:#101623;color:var(--text);padding:8px 12px;border-radius:12px;cursor:pointer}
-.badge{padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:#8ea6c0;font-size:.85rem}
-.tab{padding:10px;border:1px solid var(--border);border-radius:12px;background:transparent;color:#e6f1ff;cursor:pointer}
-.tab.active{outline:2px solid var(--accent)}
-table{width:100%;border-collapse:collapse} th,td{border-bottom:1px solid var(--border);padding:8px;vertical-align:top} th{color:#9eb3cc;text-align:left}
-.note{width:100%;padding:8px;border:1px solid var(--border);border-radius:10px;background:transparent;color:#e6f1ff}
-input[type="checkbox"]{width:20px;height:20px;accent-color:var(--accent)}
-/* Run UI */
-.runmode #app{display:none}
-#run-ui{display:none;position:fixed;inset:0;background:#000;z-index:90;color:#e6f1ff;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px;text-align:center}
-.runmode #run-ui{display:flex}
-#run-ui .big{font-size:3.4rem;font-weight:900}
-#run-ui .mid{font-size:1.1rem;color:#9db1c9}
-#run-ui .bar{width:min(560px,90vw);height:12px;border-radius:999px;background:#1f2733;overflow:hidden;border:1px solid #2d3a4c}
-#run-ui .fill{height:100%;width:0;background:linear-gradient(90deg,#58a6ff,#42c6ff)}
-#run-ui .top{position:fixed;top:12px;left:12px;display:flex;gap:8px}
+  :root{--bg:#0e1116;--card:#151a22;--muted:#8ea6c0;--text:#e6f1ff;--accent:#58a6ff;--accent2:#7ee787;--warn:#ffb86b;--danger:#ff6b6b;--border:#223041}
+  :root.light{--bg:#f7fbff;--card:#ffffff;--muted:#627086;--text:#0e1116;--accent:#1668ff;--accent2:#0ea86d;--warn:#b66b00;--danger:#c93b3b;--border:#dbe6f4}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;background:var(--bg);color:var(--text)}
+  header{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,rgba(14,17,22,.96),rgba(14,17,22,.82));border-bottom:1px solid var(--border);backdrop-filter:blur(10px)}
+  :root.light header{background:linear-gradient(180deg,rgba(247,251,255,.96),rgba(247,251,255,.82))}
+  .wrap{max-width:1060px;margin:0 auto;padding:16px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .title{display:flex;align-items:center;gap:12px}
+  .badge{padding:4px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:.85rem}
+  .grid{display:grid;gap:16px}
+  @media(min-width:980px){.grid{grid-template-columns:1.25fr .75fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+  .card .head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)}
+  .card .body{padding:12px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:.8rem;color:var(--muted)}
+  .btn{appearance:none;border:1px solid var(--border);background:#101623;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer}
+  .btn:hover{border-color:#2a3c55}
+  .btn-accent{background:linear-gradient(180deg,#1b2940,#122038);border-color:#2a3c55}
+  .small{font-size:.85rem}
+  .tabs{display:flex;gap:8px;padding:8px;position:relative;z-index:31;background:transparent}
+  .tab{flex:1;text-align:center;padding:10px;border:1px solid var(--border);border-radius:12px;background:transparent;color:var(--text);cursor:pointer}
+  .tab.active{outline:2px solid var(--accent)}
+  details.week{border-top:1px solid var(--border)}
+  details[open] summary{border-bottom:1px solid var(--border)}
+  summary{list-style:none;display:flex;align-items:center;gap:10px;cursor:pointer;padding:14px 16px}
+  summary::-webkit-details-marker{display:none}
+  .wk-title{font-weight:700}
+  .wk-meta{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+  table{width:100%;border-collapse:collapse}
+  th,td{border-bottom:1px solid var(--border);padding:10px;vertical-align:top}
+  th{color:var(--muted);font-weight:600;text-align:left}
+  tr:last-child td{border-bottom:none}
+  .note{width:100%;padding:8px 10px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text)}
+  input[type="checkbox"]{width:22px;height:22px;accent-color:var(--accent);cursor:pointer}
+
+  /* ===== MODO CORRIDA ===== */
+  .runmode #app{display:none}
+  .runmode #run-ui{display:flex}
+  #run-ui{display:none;position:fixed;inset:0;background:#000;z-index:90;color:#e6f1ff;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px;text-align:center}
+  #run-ui .big{font-size:3.4rem;font-weight:900;letter-spacing:.5px}
+  #run-ui .mid{font-size:1.1rem;color:#9db1c9}
+  #run-ui .bar{width:min(560px,90vw);height:12px;border-radius:999px;background:#1f2733;overflow:hidden;border:1px solid #2d3a4c}
+  #run-ui .fill{height:100%;width:0;background:linear-gradient(90deg,#58a6ff,#42c6ff)}
+  #run-ui .coach{font-size:1rem;color:#b5c7dc;height:1.4rem}
+  #run-ui .top{position:fixed;top:12px;left:12px;display:flex;gap:8px}
+  #run-ui .top .btn{background:#0f1a2b;color:#e6f1ff}
 </style>
 </head>
 <body>
@@ -38,19 +61,24 @@ input[type="checkbox"]{width:20px;height:20px;accent-color:var(--accent)}
 <header>
   <div class="wrap">
     <div class="row" style="justify-content:space-between">
-      <div class="row">
-        <div style="font-weight:800;font-size:1.1rem">Corrida Felipe • v3.8.3</div>
-        <div class="badge">Timers estáveis • TTS Coach • WakeLock</div>
+      <div class="title">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 19v-9a3 3 0 0 1 3-3l1-2h6l1 2a3 3 0 0 1 3 3v9" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/><path d="M7 12h10M7 16h10" stroke="#7ee787" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div>
+          <div style="font-weight:800;font-size:1.1rem">Corrida Felipe • v3.8.3</div>
+          <div class="badge">Modo corrida • TTS Coach • WakeLock • Registro • PWA</div>
+        </div>
       </div>
       <div class="row">
-        <a class="btn" href="https://www.strava.com/upload/select" target="_blank">Strava (upload)</a>
-        <button class="btn" id="btn-td">🏁 Treino do dia</button>
+        <button class="btn" id="btn-theme">🌗 Tema</button>
+        <a class="btn" href="https://www.strava.com/upload/select" target="_blank" rel="noopener">Strava (upload)</a>
+        <button class="btn btn-accent" id="btn-td">🏁 Treino do dia</button>
         <button class="btn" id="btn-quick-6x1k">6×1K</button>
         <button class="btn" id="btn-quick-4x1k">4×1K</button>
         <button class="btn" id="btn-quick-corda">Corda</button>
       </div>
     </div>
-    <div class="row" role="tablist" style="margin-top:8px">
+
+    <div class="tabs" role="tablist">
       <button class="tab active" data-tab="plano">Plano</button>
       <button class="tab" data-tab="stats">Estatísticas</button>
       <button class="tab" data-tab="config">Config</button>
@@ -58,58 +86,167 @@ input[type="checkbox"]{width:20px;height:20px;accent-color:var(--accent)}
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap grid">
   <section class="card">
     <div class="head">
-      <h2 style="margin:0">Plano semanal</h2>
+      <h2>Plano semanal</h2>
       <div class="row">
-        <button class="btn" id="btn-session">Sessão agora</button>
-        <button class="btn" id="btn-export">Backup</button>
-        <label class="btn" for="restore" style="cursor:pointer">Restaurar</label>
-        <input id="restore" type="file" accept=".json" style="display:none">
+        <button class="btn btn-accent" id="btn-session">Sessão agora</button>
+        <button class="btn" id="btn-export-csv">CSV</button>
+        <button class="btn" id="btn-export-gpx">GPX</button>
+        <button class="btn" id="btn-export-tcx">TCX</button>
+        <button class="btn" id="btn-backup">Exportar backup</button>
+        <label class="btn" for="restore" style="cursor:pointer">Restaurar backup</label>
+        <input type="file" id="restore" accept=".json" style="display:none">
       </div>
     </div>
 
     <div class="body" id="pane-plano">
-      <details open class="week">
-        <summary>📅 Semana 1 – Controle e base</summary>
+      <!-- Semana 1 -->
+      <details class="week" open data-week="1">
+        <summary>
+          <span class="wk-title">📅 Semana 1 – Controle e base</span>
+          <span class="wk-meta"><span class="pill"><strong id="w1-done">0</strong>/5 feitos</span><span class="pill">Ritmo estável</span></span>
+        </summary>
         <div class="body">
           <table>
-            <tr><th>Dia</th><th>Treino</th><th>Descrição</th><th>Notas</th><th>✔️</th></tr>
+            <tr><th>Dia</th><th>Treino</th><th>Descrição</th><th>Ritmo / Observações</th><th>✔️</th></tr>
             <tr data-id="w1d1" data-day="1" data-type="corda" data-corda="2m leve;1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;1m rápido;2m leve">
-              <td>Seg</td><td>Corda (8 min)</td><td>Ativação e técnica <button class="btn small start-corda">Iniciar</button></td>
-              <td><input class="note" placeholder="sensação"></td><td><input type="checkbox"></td>
+              <td>Seg</td><td>Corda (8 min)</td><td>Ativação e técnica <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note" placeholder="Ex.: leve, técnica ok"/></td><td><input type="checkbox"/></td>
             </tr>
             <tr data-id="w1d2" data-day="2" data-type="intv" data-intv="6" data-pace="4:20" data-restpace="5:50">
-              <td>Ter</td><td>Fartlek 6×1 km</td><td>1 km 4:20 + 1 km 5:50 ×6 <button class="btn small start-intv">Timer 6×1k</button></td>
-              <td><input class="note"></td><td><input type="checkbox"></td>
+              <td>Ter</td><td>Fartlek 6×1 km</td><td>1 km 4:20/km + 1 km 5:50/km ×6 <button class="btn start-intv">Timer 6×1k</button></td>
+              <td><input class="note" placeholder="Splits e sensação"/></td><td><input type="checkbox"/></td>
             </tr>
-            <tr data-id="w1d5" data-day="7" data-type="prog">
-              <td>Dom</td><td>Progressiva 5 km</td><td>5:15 → 5:00 → 4:50 → 4:40 → 4:30</td>
-              <td><input class="note"></td><td><input type="checkbox"></td>
+            <tr data-id="w1d3" data-day="4" data-type="cont"><td>Qui</td><td>Contínua 6 km</td><td>Ritmo 5:00–5:15/km</td><td><input class="note" placeholder="Pace médio, respiração"/></td><td><input type="checkbox"/></td></tr>
+            <tr data-id="w1d4" data-day="5" data-type="corda" data-corda="1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;">
+              <td>Sex</td><td>Corda (6–8 min)</td><td>Técnica e leve <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note" placeholder="Panturrilha ok?"/></td><td><input type="checkbox"/></td>
             </tr>
+            <tr data-id="w1d5" data-day="7" data-type="prog"><td>Dom</td><td>Progressiva 5 km</td><td>5:15 → 5:00 → 4:50 → 4:40 → 4:30</td><td><input class="note" placeholder="Splits por km"/></td><td><input type="checkbox"/></td></tr>
+          </table>
+        </div>
+      </details>
+
+      <!-- Semana 2 -->
+      <details class="week" data-week="2">
+        <summary>
+          <span class="wk-title">⚡ Semana 2 – Ritmo e resistência</span>
+          <span class="wk-meta"><span class="pill"><strong id="w2-done">0</strong>/5 feitos</span><span class="pill">Sustentar esforço</span></span>
+        </summary>
+        <div class="body">
+          <table>
+            <tr><th>Dia</th><th>Treino</th><th>Descrição</th><th>Ritmo / Observações</th><th>✔️</th></tr>
+            <tr data-id="w2d1" data-day="1" data-type="corda" data-corda="1m normal;30s pausa;1m normal;30s pausa;1m normal;30s pausa;1m normal;30s pausa;1m normal;30s pausa;1m rápido;1m rápido;2m leve">
+              <td>Seg</td><td>Corda (10 min)</td><td>Volume moderado <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td>
+            </tr>
+            <tr data-id="w2d2" data-day="2" data-type="intv" data-intv="5" data-pace="4:07" data-restpace="5:40">
+              <td>Ter</td><td>Int. 5×1 km</td><td>1 km 4:05–4:10 + 1 km 5:40 <button class="btn start-intv">Timer 5×1k</button></td>
+              <td><input class="note" placeholder="Paces fortes"/></td><td><input type="checkbox"/></td>
+            </tr>
+            <tr data-id="w2d3" data-day="4" data-type="tempo"><td>Qui</td><td>Tempo Run</td><td>2 km leves + 3 km 4:35 + 1 km leve</td><td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+            <tr data-id="w2d4" data-day="5" data-type="corda" data-corda="45s rápido;15s pausa;45s rápido;15s pausa;45s rápido;15s pausa;1m alternando;1m alternando;1m alternando">
+              <td>Sex</td><td>Corda rápida (6 min)</td><td>Explosão curta <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+            <tr data-id="w2d5" data-day="7" data-type="longa"><td>Dom</td><td>Longa 8 km</td><td>Leve ~5:15/km</td><td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+          </table>
+        </div>
+      </details>
+
+      <!-- Semana 3 -->
+      <details class="week" data-week="3">
+        <summary>
+          <span class="wk-title">🔥 Semana 3 – Controle sob fadiga</span>
+          <span class="wk-meta"><span class="pill"><strong id="w3-done">0</strong>/5 feitos</span><span class="pill">Consistência</span></span>
+        </summary>
+        <div class="body">
+          <table>
+            <tr><th>Dia</th><th>Treino</th><th>Descrição</th><th>Ritmo / Observações</th><th>✔️</th></tr>
+            <tr data-id="w3d1" data-day="1" data-type="corda" data-corda="1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;1m rápido;1m rápido;2m leve">
+              <td>Seg</td><td>Corda + equilíbrio (10 min)</td><td>Estabilidade e controle <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td>
+            </tr>
+            <tr data-id="w3d2" data-day="2" data-type="intv" data-intv="4" data-pace="4:05" data-restpace="5:40">
+              <td>Ter</td><td>Int. 4×1 km</td><td>1 km 4:05 + 1 km 5:40 <button class="btn start-intv">Timer 4×1k</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td>
+            </tr>
+            <tr data-id="w3d3" data-day="4" data-type="cont"><td>Qui</td><td>Contínua forte 5 km</td><td>Ritmo 4:45/km sem pausa</td><td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+            <tr data-id="w3d4" data-day="5" data-type="corda" data-corda="7m leve contínuo">
+              <td>Sex</td><td>Corda leve (7 min)</td><td>Recuperação ativa <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+            <tr data-id="w3d5" data-day="7" data-type="mixed"><td>Dom</td><td>Leve + 4×100 m</td><td>6 km leve + 4 tiros de 100 m</td><td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+          </table>
+        </div>
+      </details>
+
+      <!-- Semana 4 -->
+      <details class="week" data-week="4">
+        <summary>
+          <span class="wk-title">🏆 Semana 4 – Consolidação e teste</span>
+          <span class="wk-meta"><span class="pill"><strong id="w4-done">0</strong>/5 feitos</span><span class="pill">Afinar e avaliar</span></span>
+        </summary>
+        <div class="body">
+          <table>
+            <tr><th>Dia</th><th>Treino</th><th>Descrição</th><th>Ritmo / Observações</th><th>✔️</th></tr>
+            <tr data-id="w4d1" data-day="1" data-type="corda" data-corda="1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;1m rápido;1m rápido;2m leve">
+              <td>Seg</td><td>Corda coordenação (10 min)</td><td>Coordenação e cadência <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td>
+            </tr>
+            <tr data-id="w4d2" data-day="2" data-type="intv" data-intv="6" data-pace="4:20" data-restpace="5:45">
+              <td>Ter</td><td>Fartlek 40 min</td><td>1 km forte/1 km leve (30–40 min) <button class="btn start-intv">Timer fartlek</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td>
+            </tr>
+            <tr data-id="w4d3" data-day="4" data-type="ritmo"><td>Qui</td><td>Corrida de ritmo</td><td>2 km leves + 4 km 4:30–4:35 + 1 km leve</td><td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+            <tr data-id="w4d4" data-day="5" data-type="corda" data-corda="5m leve contínuo">
+              <td>Sex</td><td>Corda leve (5 min)</td><td>Ativação suave <button class="btn btn-accent small start-corda">Iniciar</button></td>
+              <td><input class="note"/></td><td><input type="checkbox"/></td></tr>
+            <tr data-id="w4d5" data-day="7" data-type="simulado"><td>Dom</td><td>Simulado 5 km</td><td>4:45 → 4:35 → 4:30 → 4:25 → 4:20 (meta 22:30–23:00)</td><td><input class="note" placeholder="Tempo final e splits"/></td><td><input type="checkbox"/></td></tr>
           </table>
         </div>
       </details>
     </div>
 
+    <!-- Estatísticas -->
     <div class="body" id="pane-stats" style="display:none">
-      <div>Concluídos: <b id="stat-done">0</b>/<b id="stat-total">0</b></div>
-      <div id="sessions" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;max-height:260px;overflow:auto"></div>
+      <div class="row" style="align-items:flex-start">
+        <div class="card" style="flex:1;padding:12px">
+          <div style="font-weight:700;margin-bottom:8px">Pace médio (anotado)</div>
+          <canvas id="chart"></canvas>
+        </div>
+        <div class="card" style="width:360px;padding:12px">
+          <div style="font-weight:700;margin-bottom:8px">Resumo</div>
+          <div class="small muted">Treinos concluídos: <b id="stat-done">0</b>/<b id="stat-total">0</b></div>
+          <div class="small muted">Concluído: <b id="stat-percent">0%</b></div>
+          <div class="small muted">Pace médio: <b id="stat-avgpace">—</b></div>
+          <div class="small muted">Sessões registradas: <b id="stat-sessions">0</b></div>
+        </div>
+        <div class="card" style="flex:1;padding:12px">
+          <div style="font-weight:700;margin-bottom:8px">Histórico de sessões</div>
+          <div id="sessions" class="small" style="max-height:220px;overflow:auto"></div>
+        </div>
+      </div>
     </div>
 
+    <!-- Config -->
     <div class="body" id="pane-config" style="display:none">
-      <div class="row">
-        <button class="btn" id="btn-wakelock">Tela sempre ligada: OFF</button>
-        <button class="btn" id="btn-voice">Voz: ON</button>
+      <h3 style="margin:0 0 6px 0">⚙️ Preferências</h3>
+      <div class="row" style="gap:8px 12px">
+        <button class="btn" id="btn-theme2">Alternar tema</button>
+        <button class="btn" id="btn-reset">Zerar progresso</button>
+        <button class="btn" id="btn-install" style="display:none">Instalar como App (PWA)</button>
       </div>
-      <small style="color:#9db1c9">Deixe “Voz: ON” para narração motivacional automática.</small>
+      <div style="height:10px"></div>
+      <label style="display:block;margin:6px 0"><input type="checkbox" id="ttsOn" checked> Narração por voz (TTS Coach)</label>
+      <label style="display:block;margin:6px 0"><input type="checkbox" id="wakeOn" checked> Manter tela ligada (Wake Lock)</label>
+      <small style="color:var(--muted)">A voz anuncia início/fim de blocos, contagem e trocas. A tela ligada ajuda a não travar o cronômetro ao apagar a tela.</small>
     </div>
   </section>
 </main>
 </div>
 
-<!-- Modo corrida -->
+<!-- UI do modo corrida -->
 <div id="run-ui">
   <div class="top">
     <button class="btn" id="btn-exit-run">Sair</button>
@@ -118,174 +255,289 @@ input[type="checkbox"]{width:20px;height:20px;accent-color:var(--accent)}
   <div class="mid" id="run-label">Preparar...</div>
   <div class="big" id="run-main">00:00</div>
   <div class="bar"><div class="fill" id="run-fill"></div></div>
+  <div class="coach" id="run-coach"></div>
 </div>
 
-<footer style="text-align:center;color:#8ea6c0;padding:12px">Feito para Felipe • v3.8.3 • © 2025</footer>
+<footer style="text-align:center;color:#8ea6c0;padding:16px">Feito para Felipe • v3.8.3 • © 2025</footer>
 
 <script>
-// Nunca deixa o app travar por erro não tratado
-window.onerror = function(msg, src, line){ console.log('Erro:', msg, src, line); };
+// ===== helpers: beep & vibrate =====
+let __audioCtx=null;
+function beep(times=1, dur=90, freq=880){
+  try{
+    if(!('AudioContext' in window || 'webkitAudioContext' in window)) return;
+    __audioCtx = __audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const now = __audioCtx.currentTime;
+    for(let i=0;i<times;i++){
+      const o=__audioCtx.createOscillator(), g=__audioCtx.createGain();
+      o.type='sine'; o.frequency.value=freq;
+      o.connect(g); g.connect(__audioCtx.destination);
+      const t = now + i*(dur/1000+0.05);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.3, t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+dur/1000);
+      o.start(t); o.stop(t+dur/1000+0.02);
+    }
+  }catch(e){}
+}
+function vibrate(p){ try{ if('vibrate' in navigator) navigator.vibrate(p); }catch(e){} }
 
+// ===== TTS (voz) =====
+let ttsEnabled = true;
+function speak(text){
+  if(!ttsEnabled) return;
+  try{
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'pt-BR';
+    u.rate = 1.02;
+    u.pitch = 1.0;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+// ===== WakeLock =====
+let wakeEnabled = true;
+let wakeLock = null;
+async function requestWake(){
+  if(!wakeEnabled) return;
+  try{
+    if('wakeLock' in navigator){
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener?.('release',()=>{ /* noop */ });
+    }
+  }catch(e){}
+}
+async function releaseWake(){
+  try{ await wakeLock?.release(); }catch(e){}
+  wakeLock = null;
+}
+
+// ===== App =====
 (function(){
-  const STORAGE='corrida_felipe_v383';
-  const state=load()||{sessions:[], tts:true}; // TTS ON por padrão
+  const STORAGE='corrida_felipe_v38_state';
+  const root=document.documentElement;
+  const state=load()||{sessions:[], ttsOn:true, wakeOn:true};
 
+  // THEME
+  function toggleTheme(){ const light=root.classList.toggle('light'); state.theme=light?'light':'dark'; save(); }
+  byId('btn-theme').addEventListener('click',toggleTheme);
+  byId('btn-theme2').addEventListener('click',toggleTheme);
+  if(state.theme==='light') root.classList.add('light');
+
+  // Tabs
   const tabs=document.querySelectorAll('.tab');
   const panes={plano:byId('pane-plano'), stats:byId('pane-stats'), config:byId('pane-config')};
-  tabs.forEach(t=> t.addEventListener('click',()=> showTab(t.dataset.tab)));
-  function showTab(k){ tabs.forEach(x=> x.classList.toggle('active', x.dataset.tab===k)); Object.entries(panes).forEach(([key,el])=> el.style.display=(key===k?'block':'none')); if(k==='stats') renderStats(); }
+  function showTab(key){
+    tabs.forEach(x=>{ const active=(x.dataset.tab===key); x.classList.toggle('active',active); });
+    Object.entries(panes).forEach(([k,el])=> el.style.display = (k===key ? 'block' : 'none'));
+    if(key==='stats'){ drawChart(); renderSessions(); }
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=> showTab(t.dataset.tab)));
   showTab('plano');
 
-  // backup
-  byId('btn-export').addEventListener('click',()=> download('corrida_backup.json', JSON.stringify(state,null,2), 'application/json'));
-  byId('restore').addEventListener('change', async e=>{ const f=e.target.files[0]; if(!f) return; const txt=await f.text(); try{ const data=JSON.parse(txt); localStorage.setItem(STORAGE, JSON.stringify(data)); location.reload(); }catch(err){ alert('Arquivo inválido'); } });
-
-  // linhas da tabela
-  const rows=document.querySelectorAll('tr[data-id]');
-  rows.forEach(r=>{
-    const id=r.dataset.id, cb=r.querySelector('input[type="checkbox"]'), note=r.querySelector('.note');
-    if(state[id]){ cb.checked=!!state[id].done; note.value=state[id].note||''; }
-    cb.addEventListener('change', ()=> { state[id]={...(state[id]||{}),done:cb.checked}; save(); });
-    note.addEventListener('input', ()=> { state[id]={...(state[id]||{}),note:note.value}; saveSoon(); });
-    r.querySelector('.start-corda')?.addEventListener('click',()=> startCordaTimer(r.getAttribute('data-corda')||'', r.dataset));
-    r.querySelector('.start-intv')?.addEventListener('click',()=> startIntvBuilder(r.getAttribute('data-intv')||'6', r.getAttribute('data-pace')||'4:20', r.getAttribute('data-restpace')||'5:50', r.dataset));
+  // Backup export/import
+  byId('btn-backup').addEventListener('click',()=>{
+    download('corrida_felipe_backup.json', JSON.stringify(state,null,2), 'application/json');
+  });
+  byId('restore').addEventListener('change', async (e)=>{
+    const f=e.target.files[0]; if(!f) return;
+    const txt=await f.text();
+    try{ const data=JSON.parse(txt); localStorage.setItem(STORAGE, JSON.stringify(data)); location.reload(); }
+    catch(err){ alert('Arquivo inválido.'); }
   });
 
-  // atalhos (duplo clique)
-  byId('btn-quick-6x1k').addEventListener('dblclick',()=> startIntv('6','4:20','5:50'));
-  byId('btn-quick-4x1k').addEventListener('dblclick',()=> startIntv('4','4:05','5:40'));
-  byId('btn-quick-corda').addEventListener('dblclick',()=> startCordaTimer('2m leve;1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;1m rápido;2m leve'));
+  // Zerar progresso
+  byId('btn-reset').addEventListener('click',()=>{
+    if(confirm('Zerar todas as anotações e marcações?')){
+      localStorage.removeItem(STORAGE); location.reload();
+    }
+  });
 
+  // Treino do dia
   byId('btn-td').addEventListener('click',()=>{
-    const dow=(new Date().getDay()||7);
+    const dow=(new Date().getDay()||7); // dom=0->7
     const row=document.querySelector(`tr[data-day="${dow}"]`);
     if(row){ row.scrollIntoView({behavior:'smooth',block:'center'}); row.animate([{outline:'2px solid var(--accent)'},{outline:'none'}],{duration:1200}); }
   });
 
-  // ===== Áudio/Vibração (seguros)
-  let __audioCtx=null;
-  function beep(times=1, dur=90, freq=880){
-    try{
-      if(!('AudioContext' in window || 'webkitAudioContext' in window)) return;
-      __audioCtx = __audioCtx || new (window.AudioContext||window.webkitAudioContext)();
-      const now = __audioCtx.currentTime;
-      for(let i=0;i<times;i++){
-        const o=__audioCtx.createOscillator(), g=__audioCtx.createGain();
-        o.type='sine'; o.frequency.value=freq;
-        o.connect(g); g.connect(__audioCtx.destination);
-        const t = now + i*(dur/1000+0.05);
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.25, t+0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, t+dur/1000);
-        o.start(t); o.stop(t+dur/1000+0.02);
-      }
-    }catch(e){}
-  }
-  function vibrate(p){ try{ if('vibrate' in navigator) navigator.vibrate(p); }catch(e){} }
+  // Quick shortcuts (duplo clique inicia direto)
+  byId('btn-quick-6x1k').addEventListener('dblclick',()=> startIntv('6','4:20','5:50'));
+  byId('btn-quick-4x1k').addEventListener('dblclick',()=> startIntv('4','4:05','5:40'));
+  byId('btn-quick-corda').addEventListener('dblclick',()=> startCordaTimer('2m leve;1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;1m rápido;2m leve'));
 
-  // ===== WakeLock
-  let wakeLock=null;
-  async function requestWakeLock(){ try{ if('wakeLock' in navigator){ wakeLock = await navigator.wakeLock.request('screen'); setWakelockBtn(true); wakeLock.addEventListener('release',()=> setWakelockBtn(false)); } }catch(e){ setWakelockBtn(false); } }
-  function releaseWakeLock(){ try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){} setWakelockBtn(false); }
-  function setWakelockBtn(on){ const b=byId('btn-wakelock'); if(b) b.textContent='Tela sempre ligada: ' + (on?'ON':'OFF'); }
-  document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && wakeLock){ requestWakeLock(); } });
-  byId('btn-wakelock').addEventListener('click',()=>{ if(wakeLock){ releaseWakeLock(); } else { requestWakeLock(); } });
-
-  // ===== TTS Coach (motivacional)
-  let ttsEnabled = state.tts!==false;
-  function refreshVoiceBtn(){ const b=byId('btn-voice'); if(b) b.textContent='Voz: ' + (ttsEnabled?'ON':'OFF'); }
-  refreshVoiceBtn();
-  byId('btn-voice').addEventListener('click',()=>{ ttsEnabled=!ttsEnabled; state.tts=ttsEnabled; save(); refreshVoiceBtn(); });
-  function speak(txt){ try{ if(!ttsEnabled) return; const u=new SpeechSynthesisUtterance(txt); u.lang='pt-BR'; u.rate=1; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
-  function coachStart(seq, meta){
-    if(meta?.type==='intv'){
-      speak('Iniciando treino. Vamos com foco e consistência.');
-      speak('Primeiro quilômetro forte. Mantenha o ritmo alvo.');
-    }else if(meta?.type==='corda'){
-      speak('Iniciando sequência de corda. Salto leve, postura alta.');
-      if(seq[0]?.label) speak(seq[0].label);
-    }else{
-      speak('Iniciando sessão. Bora pra cima!');
-    }
-  }
-  function coachTransition(nextLabel){
-    if(!nextLabel) return;
-    const frases=['Ótimo! Próximo bloco.','Segue firme! Próxima etapa.','Respira e mantém. Próximo.','Bora! Troca de ritmo.'];
-    speak(frases[Math.floor(Math.random()*frases.length)]);
-    speak(nextLabel);
-  }
-  function coachTenSeconds(){
-    const frases=['Dez segundos finais! Força!','Últimos dez, capricha!','Reta final, segura o ritmo!'];
-    speak(frases[Math.floor(Math.random()*frases.length)]);
-  }
-  function coachFinish(meta){
-    if(meta?.type==='intv') speak('Excelente! Intervalado concluído. Você foi muito bem.');
-    else if(meta?.type==='corda') speak('Sequência de corda concluída. Panturrilha em dia!');
-    else speak('Treino concluído. Orgulho total!');
-  }
-
-  // ===== Timers (núcleo estável)
-  let steps=[], idx=0, remain=0, total=0, tickH=null, paused=false, currentMeta=null, tenFlag=false;
-  const run={ui:byId('run-ui'), main:byId('run-main'), label:byId('run-label'), fill:byId('run-fill')};
-  byId('btn-exit-run').addEventListener('click', ()=> exitRunMode(true));
-  byId('btn-pause').addEventListener('click', ()=> { paused=!paused; byId('btn-pause').textContent = paused?'Retomar':'Pausar'; if(ttsEnabled) speak(paused?'Pausado':'Retomando'); });
-
-  function startIntvBuilder(reps, pace, rest, meta){ const hard=strToSec(pace), easy=strToSec(rest); const seq=[]; for(let i=1;i<=+reps;i++){ seq.push({label:`${i}º quilômetro forte`, sec:hard}); if(i<reps) seq.push({label:`${i}º quilômetro leve`, sec:easy}); } startTimer(seq,{type:'intv',km:+reps,meta}); }
-  function startIntv(reps, pace, rest){ startIntvBuilder(reps,pace,rest); }
-  function startCordaTimer(plan, meta){ const seq=parseCorda(plan); startTimer(seq,{type:'corda',km:0,meta}); }
-
-  byId('btn-session').addEventListener('click',()=>{
-    const reps=prompt('Repetições (km):','6'); if(!reps) return;
-    const p=prompt('Pace forte (m:ss):','4:20'); if(!p) return;
-    const r=prompt('Pace leve (m:ss):','5:50'); if(!r) return;
-    startIntvBuilder(reps,p,r);
+  // Linhas do plano
+  const rows=document.querySelectorAll('tr[data-id]');
+  rows.forEach(row=>{
+    const id=row.dataset.id; const cb=row.querySelector('input[type="checkbox"]'); const note=row.querySelector('.note');
+    if(state[id]){ cb.checked=!!state[id].done; note.value=state[id].note||''; }
+    cb?.addEventListener('change',()=>{ state[id]={...(state[id]||{}),done:cb.checked}; save(); renderProgress(); });
+    note?.addEventListener('input',()=>{ state[id]={...(state[id]||{}),note:note.value}; throttleSave(); });
+    row.querySelector('.start-corda')?.addEventListener('click',()=> { startCordaTimer(row.getAttribute('data-corda')||'', row.dataset); });
+    row.querySelector('.start-intv')?.addEventListener('click',()=> { startIntvBuilder(row.getAttribute('data-intv')||'6', row.getAttribute('data-pace')||'4:20', row.getAttribute('data-restpace')||'5:50', row.dataset); });
   });
 
-  function startTimer(seq, meta={}){
-    try{
-      currentMeta=meta; steps=seq; idx=0; remain=steps[0]?.sec||0; total=steps.reduce((a,b)=>a+b.sec,0); paused=false; tenFlag=false;
-      document.body.classList.add('runmode'); run.label.textContent='Preparar...'; run.main.textContent='3'; run.fill.style.width='0%';
-      let c=3; beep(); vibrate(40);
-      const countdown=setInterval(()=>{
-        c--; if(c>0){ run.main.textContent=String(c); beep(); }
-        else{ clearInterval(countdown); run.main.textContent=secToStr(remain); beep(); vibrate(100); coachStart(steps, meta); tick(); tickH=setInterval(tick,1000); }
-      },1000);
-    }catch(e){ alert('Erro ao iniciar o timer'); console.error(e); }
+  // Estatísticas
+  function renderProgress(){
+    const total = rows.length; let done=0; rows.forEach(r=>{ const id=r.dataset.id; if(state[id]?.done) done++; });
+    const pct = Math.round((done/total)*100);
+    setText('stat-done', done); setText('stat-total', total); setText('stat-percent', pct+'%'); setText('stat-avgpace', computeAvgPace()||'—');
+    for(let w=1; w<=4; w++){ const wk=Array.from(rows).filter(r=>r.dataset.id.startsWith('w'+w)); const n=wk.filter(r=>state[r.dataset.id]?.done).length; setText('w'+w+'-done', n); }
   }
+  function drawChart(){
+    const el=byId('chart'); const ctx=el.getContext('2d');
+    const DPR=(window.devicePixelRatio||1); const W=el.clientWidth, H=200; el.width=W*DPR; el.height=H*DPR; ctx.scale(DPR,DPR); ctx.clearRect(0,0,W,H);
+    const arr=collectPaces(); if(!arr.length){ ctx.fillStyle=getMuted(); ctx.fillText('Sem dados suficientes.', 10, 20); return; }
+    const xs=arr.map((_,i)=>i), ys=arr;
+    const min=Math.min(...ys), max=Math.max(...ys);
+    const P=28; const x=i=>P+(W-2*P)*(xs[i]-xs[0])/(xs.at(-1)-xs[0]||1); const y=v=>P+(H-2*P)*(1-(v-min)/(max-min||1));
+    // Banda meta 4:00–4:20
+    const p400=4*60, p420=4*60+20;
+    ctx.fillStyle='rgba(20,160,100,0.12)'; ctx.fillRect(P, y(p420), W-2*P, Math.max(2, y(p400)-y(p420)));
+    // Linha
+    ctx.strokeStyle=getAccent(); ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x(0),y(ys[0])); for(let i=1;i<ys.length;i++){ ctx.lineTo(x(i),y(ys[i])); } ctx.stroke();
+    ctx.strokeStyle=getBorder(); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(P,y(min)); ctx.lineTo(W-P,y(min)); ctx.moveTo(P,y(max)); ctx.lineTo(W-P,y(max)); ctx.stroke();
+    ctx.fillStyle=getMuted(); ctx.fillText('Mais rápido', 10, y(min)-6); ctx.fillText('Mais lento', 10, y(max)-6);
+  }
+  function renderSessions(){
+    setText('stat-sessions', state.sessions?.length||0);
+    const box=byId('sessions'); box.innerHTML='';
+    (state.sessions||[]).slice().reverse().forEach(s=>{
+      const div=document.createElement('div');
+      div.style.borderBottom='1px solid var(--border)'; div.style.padding='6px 0';
+      div.innerHTML=`<b>${s.type}</b> • ${new Date(s.date).toLocaleString()} — ${secToStr(s.total)} ${s.km? ' • '+s.km+' km • pace '+s.pace:''}`;
+      box.appendChild(div);
+    });
+  }
+  function getAccent(){ return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(); }
+  function getBorder(){ return getComputedStyle(document.documentElement).getPropertyValue('--border').trim(); }
+  function getMuted(){ return getComputedStyle(document.documentElement).getPropertyValue('--muted').trim(); }
+  function collectPaces(){
+    const arr=[]; rows.forEach(r=>{ const note=(state[r.dataset.id]?.note || r.querySelector('.note')?.value || ''); const m=note.match(/\b(\d{1,2}):(\d{2})\b/g); if(m){ const sec=m.map(t=>{ const [mm,ss]=t.split(':').map(Number); return mm*60+ss; }); arr.push(Math.round(sec.reduce((a,b)=>a+b,0)/sec.length)); } }); return arr;
+  }
+  function computeAvgPace(){ const arr=collectPaces(); if(!arr.length) return null; const avg=Math.round(arr.reduce((a,b)=>a+b,0)/arr.length); const mm=Math.floor(avg/60), ss=String(avg%60).padStart(2,'0'); return mm+':'+ss; }
+
+  // ===== Timers + Modo corrida =====
+  let steps=[], idx=0, remain=0, total=0, tickH=null, paused=false, currentMeta=null;
+  const run={ui:byId('run-ui'), main:byId('run-main'), label:byId('run-label'), fill:byId('run-fill'), coach:byId('run-coach')};
+  byId('btn-exit-run').addEventListener('click', ()=> exitRunMode(true));
+  byId('btn-pause').addEventListener('click', ()=> { paused=!paused; byId('btn-pause').textContent = paused?'Retomar':'Pausar'; });
+
+  const coachLines=['Respira pelo nariz.','Relaxa ombros.','Passada leve.','Olhar à frente.','Mantenha a cadência.','Solta as mãos.','Não acelere cedo.','Postura alta.'];
+
+  function startIntvBuilder(reps,pace,rest, meta){ const hard=strToSec(pace), easy=strToSec(rest); const seq=[]; for(let i=1;i<=+reps;i++){ seq.push({label:`${i}º km forte`, sec:hard}); if(i<reps) seq.push({label:`${i}º km leve`, sec:easy}); } startTimer(seq, {type:'intv', km:+reps, meta}); }
+  function startIntv(reps,pace,rest){ startIntvBuilder(reps,pace,rest); }
+  function startCordaTimer(plan, meta){ const seq=parseCorda(plan); startTimer(seq, {type:'corda', km:0, meta}); }
+
+  // Atalhos
+  byId('btn-session').addEventListener('click',()=> openBuilder());
+  byId('btn-quick-6x1k').addEventListener('dblclick',()=> startIntv('6','4:20','5:50'));
+  byId('btn-quick-4x1k').addEventListener('dblclick',()=> startIntv('4','4:05','5:40'));
+  byId('btn-quick-corda').addEventListener('dblclick',()=> startCordaTimer('2m leve;1m alternando;30s pausa;1m alternando;30s pausa;1m alternando;30s pausa;1m rápido;2m leve'));
+
+  function openBuilder(){
+    const reps=prompt('Repetições (km):', '6'); if(!reps) return;
+    const pace=prompt('Pace forte (m:ss):','4:20'); if(!pace) return;
+    const rest=prompt('Pace leve (m:ss):','5:50'); if(!rest) return;
+    startIntvBuilder(reps,pace,rest);
+  }
+
+  function startTimer(seq, meta={}){
+    currentMeta=meta;
+    steps=seq; idx=0; remain=steps[0]?.sec||0; total=steps.reduce((a,b)=>a+b.sec,0); paused=false;
+    document.body.classList.add('runmode');
+    run.label.textContent='Preparar...'; run.main.textContent='3'; run.fill.style.width='0%'; run.coach.textContent='';
+    let c=3; beep(); vibrate(40);
+    speak('Iniciando sessão. Prepare-se.');
+    requestWakeIfOn();
+    const countdown=setInterval(()=>{
+      c--;
+      if(c>0){ run.main.textContent=String(c); beep(); speakIfShort(c===2,'Dois.'); speakIfShort(c===1,'Um.'); }
+      else { clearInterval(countdown); run.main.textContent=secToStr(remain); beep(); vibrate(100); speak('Vai! Primeiro bloco.'); tick(); tickH=setInterval(tick,1000); }
+    }, 1000);
+  }
+
   function tick(){
     if(paused) return;
-    const cur=steps[idx]; if(!cur){ finishTimer(); return; }
+    const cur=steps[idx];
+    if(!cur){ finishTimer(); return; }
     run.label.textContent=cur.label; run.main.textContent=secToStr(remain);
-    const passed=steps.slice(0,idx).reduce((a,b)=>a+b.sec,0) + (cur.sec - Math.max(0,remain));
-    run.fill.style.width=((passed/total)*100).toFixed(1)+'%';
-    if(remain===10 && cur.sec>=20 && !tenFlag){ tenFlag=true; coachTenSeconds(); }
+    const prog = progress(); run.fill.style.width=(prog*100).toFixed(1)+'%';
+    if(remain===Math.max(0, steps[idx].sec-3)){
+      run.coach.textContent = coachLines[(idx)%coachLines.length];
+      speakSmall(run.coach.textContent);
+    }
     remain--;
-    if(remain<0){ idx++; remain=steps[idx]?.sec||0; tenFlag=false; if(steps[idx]){ beep(2); vibrate([60,40,60]); coachTransition(steps[idx].label); } }
+    if(remain<0){
+      idx++; remain=steps[idx]?.sec||0;
+      if(steps[idx]){ beep(2); vibrate([60,40,60]); speak('Troca de bloco.'); }
+    }
   }
+
   function finishTimer(){
-    run.label.textContent='Concluído!'; run.main.textContent='00:00'; run.fill.style.width='100%'; beep(3); vibrate([80,50,80,50,120]); coachFinish(currentMeta);
-    const km=currentMeta?.km||0; const totalSec=steps.reduce((a,b)=>a+b.sec,0); let pace=null; if(km>0){ const av=totalSec/km; const mm=Math.floor(av/60), ss=String(Math.round(av%60)).padStart(2,'0'); pace=mm+':'+ss; }
-    state.sessions=state.sessions||[]; state.sessions.push({date:new Date().toISOString(), type:(currentMeta?.type||'sessao'), km, total:totalSec, pace}); save();
+    run.label.textContent='Concluído!'; run.main.textContent='00:00'; run.fill.style.width='100%'; beep(3); vibrate([80,50,80,50,120]);
+    speak('Sessão concluída. Muito bom!');
+    const km = currentMeta?.km||0;
+    const totalSec = steps.reduce((a,b)=>a+b.sec,0);
+    let pace=null; if(km>0){ const av=totalSec/km; const mm=Math.floor(av/60), ss=String(Math.round(av%60)).padStart(2,'0'); pace=mm+':'+ss; }
+    state.sessions = state.sessions || []; state.sessions.push({date:new Date().toISOString(), type: (currentMeta?.type||'sessao'), km, total: totalSec, pace});
+    save();
     exitRunMode(false);
   }
-  function exitRunMode(cancel){ clearInterval(tickH); tickH=null; document.body.classList.remove('runmode'); if(cancel){ beep(); } }
 
-  // utils
-  function byId(id){return document.getElementById(id)};
+  function exitRunMode(cancel){
+    clearInterval(tickH); tickH=null; document.body.classList.remove('runmode'); if(cancel){ beep(); speak('Sessão cancelada.'); }
+    releaseWake();
+  }
+
+  // ===== Save / Load / Utils =====
+  function save(){ localStorage.setItem(STORAGE, JSON.stringify(state)); renderProgress(); }
+  function load(){ try{ return JSON.parse(localStorage.getItem(STORAGE)); } catch(e){ return {}; } }
+  let saveTimer=null; function throttleSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(save,300); }
+  function byId(id){ return document.getElementById(id); }
+  function setText(id,v){ const el=byId(id); if(el) el.textContent=v; }
   function strToSec(s){ const m=s.match(/^(\d+):(\d{2})$/); return m? (+m[1])*60+(+m[2]) : 0; }
   function secToStr(sec){ sec=Math.max(0,sec); const m=Math.floor(sec/60), ss=String(sec%60).padStart(2,'0'); return m+':'+ss; }
-  function parseCorda(text){ return text.split(';').map((p,i)=>{ p=p.trim(); const m=p.match(/(\d+)(m|s)\s*(.*)/i); if(!m) return {label:p||`Bloco ${i+1}`,sec:60}; const n=+m[1]; const unit=m[2].toLowerCase(); const rest=(m[3]||'').trim(); const sec=unit==='m'?n*60:n; return {label:(rest||`Bloco ${i+1}`),sec}; }).filter(Boolean); }
-  function save(){ localStorage.setItem(STORAGE, JSON.stringify(state)); }
-  let saveT=null; function saveSoon(){ clearTimeout(saveT); saveT=setTimeout(save,300); }
+  function progress(){ const passed=steps.slice(0,idx).reduce((a,b)=>a+b.sec,0) + (steps[idx]? (steps[idx].sec - Math.max(0, remain)) : 0); return Math.min(1, passed / (total || 1)); }
+  function parseCorda(text){ return text.split(';').map((p,i)=>{ p=p.trim(); const m=p.match(/(\d+)(m|s)\s*(.*)/i); if(!m) return {label:p||`Bloco ${i+1}`,sec:60}; const n=+m[1]; const unit=m[2].toLowerCase(); const rest=(m[3]||'').trim(); const sec=unit==='m'?n*60:n; return {label:rest||`Bloco ${i+1}`,sec}; }).filter(Boolean); }
+
+  // ===== Config: TTS + WakeLock =====
+  // estado inicial
+  ttsEnabled = state.ttsOn !== false;
+  wakeEnabled = state.wakeOn !== false;
+  const ttsChk = byId('ttsOn'); const wakeChk = byId('wakeOn');
+  if(ttsChk){ ttsChk.checked = ttsEnabled; ttsChk.onchange = ()=>{ ttsEnabled = ttsChk.checked; state.ttsOn = ttsEnabled; save(); speak(ttsEnabled?'Voz ativada.':'Voz desativada.'); }; }
+  if(wakeChk){ wakeChk.checked = wakeEnabled; wakeChk.onchange = ()=>{ wakeEnabled = wakeChk.checked; state.wakeOn = wakeEnabled; save(); if(!wakeEnabled) releaseWake(); else speak('Manter tela ligada ativado.'); }; }
+  function requestWakeIfOn(){ if(wakeEnabled) requestWake(); }
+
+  // ===== Exports simples (CSV/GPX/TCX placeholders finos) =====
+  byId('btn-export-csv').addEventListener('click',()=>{
+    const rows=[['id','nota','feito']]; document.querySelectorAll('tr[data-id]').forEach(r=>{const id=r.dataset.id; rows.push([id, (state[id]?.note||'').replaceAll(',',';'), state[id]?.done?'1':'0']);});
+    const csv=rows.map(x=>x.join(',')).join('\n');
+    download('corrida_felipe.csv', csv, 'text/csv');
+  });
+  byId('btn-export-gpx').addEventListener('click',()=>{ download('corrida_felipe.gpx','<gpx></gpx>','application/gpx+xml'); });
+  byId('btn-export-tcx').addEventListener('click',()=>{ download('corrida_felipe.tcx','<TrainingCenterDatabase></TrainingCenterDatabase>','application/vnd.garmin.tcx+xml'); });
 
   // PWA
   let deferredPrompt=null;
   window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e; const b=document.getElementById('btn-install'); if(b){ b.style.display='inline-block'; b.onclick=async()=>{ deferredPrompt.prompt(); deferredPrompt=null; }; } });
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('corrida_felipe_sw.js'); }
+
+  // Inicial
+  renderProgress(); renderSessions();
 })();
 
-function download(name, content, mime){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type:mime})); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1500); }
-function load(){ try{ return JSON.parse(localStorage.getItem('corrida_felipe_v383')); } catch(e){ return {}; } }
+// helpers download
+function download(name, content, mime){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content], {type:mime}));
+  a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+}
+
+// TTS utilitários menores
+function speakIfShort(ok,text){ if(ok) speak(text); }
+function speakSmall(text){ if(!ttsEnabled) return; try{ const u=new SpeechSynthesisUtterance(text); u.lang='pt-BR'; u.rate=1.06; u.pitch=1.0; window.speechSynthesis.speak(u);}catch(e){} }
 </script>
 </body>
 </html>
